@@ -22,7 +22,7 @@ def calculate_valibration_value(line):
     calibration_value = int(first_digit + last_digit)
     return calibration_value
 
-with open('d01p1_data.txt') as file:
+with open('d01data.txt') as file:
     raw_data = file.read()
 
 lines = raw_data.splitlines()

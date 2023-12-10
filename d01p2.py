@@ -17,8 +17,8 @@ def find_substring(string, substrings, find_last):
 number_strings = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 number_words = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 digit_strings = number_strings + number_words
-digit_map = {key: value for (key,value) in zip(number_words, number_strings)}
-digit_map.update({key: value for (key, value) in zip(number_strings, number_strings)})
+digit_map = dict(zip(number_words, number_strings))
+digit_map.update(zip(number_strings, number_strings))
 
 def calculate_valibration_value(line):
     first_substring = find_substring(line, digit_strings, False)
@@ -30,7 +30,7 @@ def calculate_valibration_value(line):
     calibration_value = int(first_digit + last_digit)
     return calibration_value
 
-with open('d01p1_data.txt') as file:
+with open('d01data.txt') as file:
     raw_data = file.read()
 
 lines = raw_data.splitlines()
