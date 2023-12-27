@@ -2,44 +2,6 @@ from functools import reduce
 from itertools import chain
 
 
-raw_data = '''seeds: 79 14 55 13
-
-seed-to-soil map:
-50 98 2
-52 50 48
-
-soil-to-fertilizer map:
-0 15 37
-37 52 2
-39 0 15
-
-fertilizer-to-water map:
-49 53 8
-0 11 42
-42 0 7
-57 7 4
-
-water-to-light map:
-88 18 7
-18 25 70
-
-light-to-temperature map:
-45 77 23
-81 45 19
-68 64 13
-
-temperature-to-humidity map:
-0 69 1
-1 0 69
-
-humidity-to-location map:
-60 56 37
-56 93 4'''
-
-# Comment file read to use sample data above
-with open('d05data.txt') as file:
-    raw_data = file.read()
-
 class Range:
     def __init__(self, start, end, offset = None) -> None:
         self.start = start
@@ -85,33 +47,41 @@ class Map:
         targets.extend(unmatched)
         return targets
 
-# map input into blocks
-blocks = [[]]
-current_block = blocks[0]
-
-for line in raw_data.splitlines():
-    if line != '':
-        current_block.append(line)
-    else: 
-        current_block = []
-        blocks.append(current_block)
-
 # pairwise iterator - returns elements two at a time, no overlap
 def pairwise(iterable):
     i = iter(iterable)
     return zip(i, i)
 
-# The first block is the list of seed ranges (start, length) to be mapped
-ranges = []    
-seed_range_values = [int(number) for number in blocks[0][0].split()[1:]]
-for start, length in pairwise(seed_range_values):
-    ranges.append(Range(start, start+length-1, 0))
+def d05p2(raw_data = None):
+    if raw_data is None:
+        with open('d05data.txt') as file:
+            raw_data = file.read()
+    
+    # map input into blocks
+    blocks = [[]]
+    current_block = blocks[0]
 
-# The remaining blocks are range maps
-range_maps = [Map(block) for block in blocks[1:]]
+    for line in raw_data.splitlines():
+        if line != '':
+            current_block.append(line)
+        else: 
+            current_block = []
+            blocks.append(current_block)
 
-# Apply the maps in order to each seed
-for map in range_maps:
-    ranges = map.map_ranges(ranges)
+    # The first block is the list of seed ranges (start, length) to be mapped
+    ranges = []    
+    seed_range_values = [int(number) for number in blocks[0][0].split()[1:]]
+    for start, length in pairwise(seed_range_values):
+        ranges.append(Range(start, start+length-1, 0))
 
-print(min([range.start for range in ranges]))
+    # The remaining blocks are range maps
+    range_maps = [Map(block) for block in blocks[1:]]
+
+    # Apply the maps in order to each seed
+    for map in range_maps:
+        ranges = map.map_ranges(ranges)
+
+    return min([range.start for range in ranges])
+
+if __name__ == '__main__':
+    print(d05p2())
