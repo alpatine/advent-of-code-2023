@@ -30,10 +30,15 @@ def calculate_valibration_value(line):
     calibration_value = int(first_digit + last_digit)
     return calibration_value
 
-with open('d01data.txt') as file:
-    raw_data = file.read()
+def d01p2(raw_data = None):
+    if raw_data is None:
+        with open('d01data.txt') as file:
+            raw_data = file.read()
+    lines = raw_data.splitlines()
+    calibration_values = map(calculate_valibration_value, lines)
+    calibration_sum = sum(calibration_values)
+    return calibration_sum
 
-lines = raw_data.splitlines()
-calibration_values = map(calculate_valibration_value, lines)
-calibration_sum = sum(calibration_values)
-print(calibration_sum)
+if __name__ == '__main__':
+    result = d01p2()
+    print(result)
