@@ -1,10 +1,5 @@
 from collections import Counter
 
-raw_data = '''32T3K 765
-T55J5 684
-KK677 28
-KTJJT 220
-QQQJA 483'''
 
 class Hand:
     # Hand Types
@@ -45,11 +40,15 @@ class Hand:
     def __repr__(self) -> str:
         return self.cards
 
+def d07p1(raw_data = None):
+    if raw_data is None:
+        with open('d07data.txt') as file:
+            raw_data = file.read()
 
-with open('d07data.txt') as file:
-    raw_data = file.read()
-        
-hands = [Hand(line) for line in raw_data.splitlines()]
-hands.sort()
+    hands = [Hand(line) for line in raw_data.splitlines()]
+    hands.sort()
 
-print(sum(hand.bid * rank for hand,rank in zip(hands, range(1, len(hands)+1))))
+    return sum(hand.bid * rank for hand,rank in zip(hands, range(1, len(hands)+1)))
+
+if __name__ == '__main__':
+    print(d07p1())
