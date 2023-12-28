@@ -1,10 +1,5 @@
 from math import ceil, floor, sqrt
 
-raw_data = '''Time:      7  15   30
-Distance:  9  40  200'''
-
-with open('d06data.txt') as file:
-    raw_data = file.read()
 
 def parse_race(lines):
     time_line, dist_line = lines.splitlines()
@@ -20,6 +15,13 @@ def number_of_winning_holds(race):
     winning_holds = longest_hold - shortest_hold + 1
     return winning_holds
 
-race = parse_race(raw_data)
-winning_holds = number_of_winning_holds(race)
-print(winning_holds)
+def d06p2(raw_data = None):
+    if raw_data is None:
+        with open('d06data.txt') as file:
+            raw_data = file.read()
+    race = parse_race(raw_data)
+    winning_holds = number_of_winning_holds(race)
+    return winning_holds
+
+if __name__ == '__main__':
+    print(d06p2())
