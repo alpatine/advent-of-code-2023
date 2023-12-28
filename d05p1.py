@@ -1,5 +1,7 @@
 from functools import reduce
 
+from parsing import split_data_into_blocks
+
 
 class Range:
     def __init__(self, start, offset, length) -> None:
@@ -26,22 +28,15 @@ class Map:
                 return source + range.offset
         
         # No ranges matched, return original value
-        return source
+        return source 
 
 def d05p1(raw_data = None):
     if raw_data is None:
         with open('d05data.txt') as file:
             raw_data = file.read()
-    # map input into blocks
-    blocks = [[]]
-    current_block = blocks[0]
 
-    for line in raw_data.splitlines():
-        if line != '':
-            current_block.append(line)
-        else: 
-            current_block = []
-            blocks.append(current_block)
+    # map input into blocks
+    blocks = split_data_into_blocks(raw_data)
         
     # The first block is the list of seeds to be mapped
     seeds_list = [int(number) for number in blocks[0][0].split()[1:]]
