@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from d11p1 import d11p1
+from d11p2 import d11p2
 
 
 class Day11_Test(TestCase):
@@ -19,3 +20,32 @@ class Day11_Test(TestCase):
 
     def test_part1_solution(self):
         self.assertEqual(d11p1(), 9445168)
+
+    def test_part2_example1(self):
+        data = '''...#......
+.......#..
+#.........
+..........
+......#...
+.#........
+.........#
+..........
+.......#..
+#...#.....'''
+        self.assertEqual(d11p2(10, data), 1030)
+    
+    def test_part2_example2(self):
+        data = '''...#......
+.......#..
+#.........
+..........
+......#...
+.#........
+.........#
+..........
+.......#..
+#...#.....'''
+        self.assertEqual(d11p2(100, data), 8410)
+
+    def test_part2_solution(self):
+        self.assertEqual(d11p2(1000000), 742305960572)
